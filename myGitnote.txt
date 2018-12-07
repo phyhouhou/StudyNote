@@ -33,3 +33,5 @@ git merge to_add #to merge branches. now the to_add.txt file is added into the m
 Create a new repository in your github account.
 git remote add origin https://github.com/username/reponame.git
 git push -u origin master # to push to remote repository. (git push --set-upstream origin master if the previous doesn't work well)
+
+After establishing connections to remote repository, use 'git add filnename', 'git commit -m 'message'', 'git push' for updating changes.
