@@ -1,0 +1,10 @@
+#ignore files that Mac OS generated.
+.DS_Store
+
+#ignore files ending in .log
+*.log
+
+#ignore the directory and everything within it
+/dirtest/*
+
+#for more examples, read https://www.jamescoyle.net/how-to/1094-ignoring-files-in-git-with-gitignore

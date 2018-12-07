@@ -1,0 +1,15 @@
+This is a note that guides beginners to use Github to manage and track their projects.
+Step 1: mkdir myfolder #to create a folder locally in laptop
+Step 2: cd myfolder-> git init #to initialize Github
+Step 3: touch myGitnote.txt #to create a new file in the current folder
+Step 4: use a text editor, Atom or VIN editor... for instance to edit texts.
+Step 5: git config --global user.name 'my name' and git config --global user.email 'myemail@gmail.com' to set up user information
+Step 6: git add filename #to add files into repository
+        Note: 'git add *.txt' to add all txt files
+              'git add .' to add all files in the folder
+              'git status' to view status, i.e., which file is added to staging and which is not tracked
+              'git rm --cached *.txt' will remove the files from staging area
+        If there are some files you want to ignore, create the file .gitignore by 'touch .gitignore' in command line
+        Include files that we want to ignore in .gitignore.
+        git add . will not add files in .gitignore
+Step 7: git commit -m 'some message here for update' to commit changes
