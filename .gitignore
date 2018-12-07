@@ -4,6 +4,10 @@
 #ignore files ending in .log
 *.log
 
+#ignore dropbox
+.dropbox
+Icon?
+
 #ignore the directory and everything within it
 /dirtest/*
 
