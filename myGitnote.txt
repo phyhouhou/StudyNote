@@ -1,10 +1,12 @@
-# This is a note that guides beginners to use Github to manage and track their projects.
-Step 1: mkdir myfolder #to create a folder locally in laptop
-Step 2: cd myfolder-> git init #to initialize Github
-Step 3: touch myGitnote.txt #to create a new file in the current folder
-Step 4: use a text editor, Atom or VIN editor... for instance to edit texts.
-Step 5: git config --global user.name 'my name' and git config --global user.email 'myemail@gmail.com' to set up user information
-Step 6: git add filename #to add files into repository
+# How to use Github-beginners
+This is a note that guides beginners to use Github to manage and track their projects.
+
+# Create directory locally
+Step 1: create a folder locally in laptop (mkdir myfolder)
+Step 2: create a new file in the current folder (touch myGitnote.txt).  Use a text editor, Atom or VIN editor... for instance to edit texts.
+Step 3: initialize Github (cd myfolder-> git init)
+Step 4: git config --global user.name 'my name' and git config --global user.email 'myemail@gmail.com' to set up user information
+Step 5: git add filename #to add files into repository
         Note: 'git add *.txt' to add all txt files
               'git add .' to add all files in the folder
               'git status' to view status, i.e., which file is added to staging and which is not tracked
@@ -12,13 +14,13 @@ Step 6: git add filename #to add files into repository
         If there are some files you want to ignore, create the file .gitignore by 'touch .DS_Store' in command line
         Include files that we want to ignore in .gitignore. Just list files there, for instance .DS_Store(will be ingored), /dirtest/*(folder and its contents will be ignored)
         git add . will not add .DS_Store included in .gitignore
-Step 7: git commit -m 'some message here for update' #to commit changes
-
-Step 8: git push #to push changes to remote repository
+Step 6: commit changes (git commit -m 'some message here for update')
+Step 7: add remote reposotory (git remote add origin https://github.com/username/reponame.git)
+Step 8: push changes to remote repository (git push -u origin master)
 
 # Regarding branches
 For example, you want to add some sections to an existing project. You want to add it after you've completed that part separately. You can use branch and merge.
-Create a branch called 'to_add' and work in that branch.
+Create a branch called 'to_add' and work in that branch. If this is not applicable, go directly to the next section.
 
 git branch to_add #to create the branch
 git checkout to_add #to switch from master branch to this branch. You can use touch to_add.txt and edit there the contents. Note that this file is in the same myfolder.
@@ -29,5 +31,5 @@ git merge to_add #to merge branches. now the to_add.txt file is added into the m
 
 # Remote repository
 Create a new repository in your github account.
-git remote add origin https://github.com/**repositoryname.git #in commend line in your working directory.
-git push -u origin master # to push to remote repository.
+git remote add origin https://github.com/username/reponame.git
+git push -u origin master # to push to remote repository. (git push --set-upstream origin master if the previous doesn't work well)
