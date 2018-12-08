@@ -1,22 +1,28 @@
 # How to use Github-beginners
 This is a note that guides beginners to use Github to manage and track their projects.
 
-# Create directory locally
+# If work with a local directory
+Create directory locally
 Step 1: create a folder locally in laptop (mkdir myfolder)
 Step 2: create a new file in the current folder (touch myGitnote.txt).  Use a text editor, Atom or VIN editor... for instance to edit texts.
+To start tracking for existing local directory, start with the next step below
 Step 3: initialize Github (cd myfolder-> git init)
 Step 4: git config --global user.name 'my name' and git config --global user.email 'myemail@gmail.com' to set up user information
-Step 5: git add filename #to add files into repository
+Step 5: git add filename #to add files into staging area
         Note: 'git add *.txt' to add all txt files
-              'git add .' to add all files in the folder
+              'git add .' to add all files in the folder to staging area (in green color)
+              'git add -A' to add all untracked files to staging area (in green color)
+              'git reset filename' to unstage the filename, to put it back to working directory
               'git status' to view status, i.e., which file is added to staging and which is not tracked
               'git rm --cached *.txt' will remove the files from staging area
         If there are some files you want to ignore, create the file .gitignore by 'touch .DS_Store' in command line
         Include files that we want to ignore in .gitignore. Just list files there, for instance .DS_Store(will be ingored), /dirtest/*(folder and its contents will be ignored)
         git add . will not add .DS_Store included in .gitignore
 Step 6: commit changes (git commit -m 'some message here for update')
-Step 7: add remote reposotory (git remote add origin https://github.com/username/reponame.git)
-Step 8: push changes to remote repository (git push -u origin master)
+Step 7: add remote repository (git remote add origin https://github.com/username/reponame.git after creating a new repository in your github account)
+Step 8: push changes to remote repository (git push -u origin master; (git push --set-upstream origin master) if previous one doesn't work well)
+
+
 
 # Regarding branches
 For example, you want to add some sections to an existing project. You want to add it after you've completed that part separately. You can use branch and merge.
@@ -29,9 +35,52 @@ git commit -m 'changes' #to commit changes before switching branches
 git checkout master #to switch back to master branch. Here the files in to_add branch is gone because it's in another branch.
 git merge to_add #to merge branches. now the to_add.txt file is added into the master branch.
 
-# Remote repository
-Create a new repository in your github account.
-git remote add origin https://github.com/username/reponame.git
-git push -u origin master # to push to remote repository. (git push --set-upstream origin master if the previous doesn't work well)
+alternatively,
+git branch testbranch
+git checkout testbranch
+...
+git push -u origin testbranch #connect testbranch to master branch
+git checkout master
+git pull origin master #update all changes that has been made since our last visit
+git merge testbranch
+git push origin master
 
-After establishing connections to remote repository, use 'git add filnename', 'git commit -m 'message'', 'git push' for updating changes.
+# If clone some remote repository and work on that
+git clone githuburl . (clone githuburl to current working directory represented by the dot)
+git add -A #to add changes into staging area
+git commit -m #to commit
+git pull origin master #to-up-date since last time we pull from that repo
+git push origin master
+
+
+After establishing connections to remote repository,
+use 'git add filnename', 'git commit -m 'message'', 'git push' for updating changes.
+
+# Some other keyword
+check version: git --version
+set configuration:
+  git config --global user.name '***'
+  git config --global user.email '***'
+  git config --list (list  all config values)
+check menu for verb action:
+  git add --help #to check actions of add
+  git help add #to check functionality of add
+stop tracking a repo: rm -rf .git (will remove .git directory)
+check logs: git log
+View information of remote repository:
+  git remote -v
+  git branch -a (the one starting with * is current branch, in green color)
+check changes: git diff
+remove changes: git checkout messfile.txt (all new changes will be removed in this file; use git status git diff for check)
+check merged branch: git branch --merged
+delete a branch locally: git branch -d branch_del
+delete a branch remotely as well: git push origin --delete branch_del
+modify bad commit message after a bad message: git commit -m amend 'new message' (use git log to check the new message)
+add new file to staging area without extra committing message: git commit --amend (it will share the same commit message with previous one)
+remove all untracked file/directory: git clean -df (untracked file/directory will be removed locally)
+
+# Reference
+https://git-scm.com/book/en/v2
+https://www.youtube.com/watch?v=SWYqp7iY_Tc
+https://www.youtube.com/watch?v=HVsySz-h9r4
+https://www.youtube.com/watch?v=FdZecVxzJbk (fixing common mistakes with git reset/checkout/revert... examples)
