@@ -1,0 +1,144 @@
+# A simple example
+A study note for using bash script to automate repetitive tasks to speed up coding.
+Bash (or shell) scripting is a way to automate tasks that execute within a Bash shell interpreter terminal.
+Any command you can run in your terminal can be run in a Bash script.
+Below are steps to write and run a simple template for bash in your terminal.
+
+In the terminal,
+1. build a new folder 'mybashscript' (mkdir mybashscript).
+2. build a new file 'script.sh' (touch script.sh)
+3. edit the new file using either VIN or Atom... with the following content:
+
+#!/bin/bash
+echo "Hello Codecademy!"
+
+4. make the file executable and run the script in terminal by:
+chmod +x script.sh
+./script.sh
+
+It will output 'Hello Codecademy!'
+
+# Using variables
+Instead of a fixed string, we can write script to output strings by variables.
+
+greetings="Hello, y'all!" #assign values to a variable
+$greetings #to access the value of the variables by a preened dollar sign
+
+The above script becomes:
+
+#!/bin/bash
+greetings="Hello, y'all!"
+echo $greetings
+
+# Using conditionals to control which portions of scripts to run.
+
+#!/bin/bash
+first_greeting="Nice to meet you!"
+later_greeting="How are you?"
+greeting_occasion=0
+
+if [ $greeting_occasion -lt 1 ] #note the space in square brackets is important
+then
+	echo $first_greeting
+else
+	echo $later_greeting
+fi  # fi to close the conditional
+
+a list of comparison operators within bash scripts:
+Equal: -eq
+Not equal: -ne
+Less than or equal: -le
+Less than: -lt
+Greater than or equal: -ge
+Greater than: -gt
+Is null: -z
+
+# Using loops in bash scripts
+There are 3 different ways to loop. Below are the sample syntax for loops.
+
+for word in $text #no dollar sign preending word as it's being defined here.
+do
+  echo $word # dollar sign when accessing variable values
+done
+
+
+while [ $index -lt 5 ]
+do
+  echo $index
+  index=$((index+1)) # arithmetic in bash scripting uses $((...)) syntax
+done
+
+
+
+until [ $index -eq 5 ]
+do
+  echo $index
+  index=$((index + 1))
+done
+
+
+
+# Access external data to bash script file
+1. read
+echo 'Input an integer'
+read number
+echo 'You inputted $number'
+
+2. Add input arguments
+Another way to access external data is to have the user add input arguments when they run your script.
+These arguments are entered after the script name and are separated by spaces. For example:
+
+saycolors red green blue
+
+Within the script, these are accessed using $1, $2, etc, where $1 is the first argument (here, "red") and so on.
+Note that these are 1 indexed and not 0 indexed like you may be used to.
+
+If your script needs to accept an indefinite number of input arguments, you can iterate over them using the "$@" syntax. For our saycolors example, we could print each color using:
+
+for color in "$@"
+do
+  echo color
+done
+
+3. Access external files
+Lastly, we can access external files to our script. You can assign a set of files to a variable name using standard bash pattern matching. For example, to get all files in a directory, you can use the * character:
+
+files = /some/directory/*
+You can then iterate through each file and do something. Here, lets just print the full path and filename:
+
+for file in $files
+do
+  echo $file
+done
+
+
+Input arguments can be passed to a bash script after the script name, separated by spaces (myScript.sh "hello" "how are you").
+
+
+
+
+# A working example
+Below is an example that uses variables and allows users' input to control a conditional loop.
+
+#!/bin/bash
+first_greeting="Nice to meet you!"
+later_greeting="How are you?"
+greeting_occasion=0
+echo "How many times should I greet?"
+read greeting_limit
+
+
+while [ $greeting_occasion -lt $greeting_limit ]
+do
+  if [ $greeting_occasion -lt 1 ]
+  then
+    echo $first_greeting
+  else
+    echo $later_greeting
+  fi
+  greeting_occasion=$((greeting_occasion + 1))
+done
+
+
+# Reference
+Codecademy https://www.codecademy.com/learn/learn-the-command-line
