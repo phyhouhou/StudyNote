@@ -1,0 +1,124 @@
+# Introduction
+This is the study note for the course SQL: Analyzing business metrics on Codeacademy.
+It works with SpeedySpoon, a meal delivery app. The aim is to look into the delivery data and help them optimize
+their process. Subqueries are used to perform complicated calculations and create filtered or aggregate tables on the fly.
+Case statement is used to generate new features in the data.
+
+The analysis is performed in the following steps:
+* Grouping data in a summary form by data aggregation;
+* Obtaining daily count, daily revenue and the total revenue.
+* Calculating percentage of product in revenue portions.
+* Calculating reorder rate (the ratio of the total number of orders to the number
+of people making orders) to recommend in a promising way.
+
+
+We'll start by looking at SpeedySpoon's data.
+The orders table has a row for each order of a SpeedySpoon delivery. It says when the order took place, and who ordered it.
+The order_items table lists the individual foods and their prices in each order.
+
+# Queries
+Below are the queries:
+
+#1. get a Daily Count of orders from the orders table
+Most dates in database are timestamps. date function is used to select the date from a timestamps
+
+select date(ordered_at)
+from orders
+order by 1
+
+#2. Use the date and count functions and group by clause to count and group the orders by the dates they were ordered_at.
+
+select date(ordered_at),count(1)
+from orders
+group by 1
+order by 1;
+
+#3. Join in the order_items table which has an amount_paid column representing revenue to get the daily revenue.
+select date(ordered_at), round(sum(amount_paid),2)
+from orders
+   join order_items on
+      orders.id = order_items.order_id
+group by 1
+order by 1;
+
+#4. Filter the daily sums down to orders regarding kale-smoothies
+select date(ordered_at), round(sum(amount_paid),2)
+from orders
+   join order_items on
+      orders.id = order_items.order_id
+where name='kale-smoothie'
+group by 1
+order by 1;
+
+It's shown that those numbers are pretty low!
+
+#5. Determine what percent of revenue these smoothies represent
+
+Total revenue for each order_items
+select name, round(sum(amount_paid), 2)
+from order_items
+group by name
+order by 2 desc;
+
+#put the total revenue in the Subqueries.
+select name, round(sum(amount_paid) /
+(select sum(amount_paid) from order_items) * 100.0, 2) as pct
+from order_items
+group by 1
+order by 2 desc;
+
+As we suspected, kale smoothies are not bringing in the money.
+We found that several of the other low performing products are also smoothies.
+Let's keep digging to find out what's going on with these smoothies.
+
+#6. Grouping with Case Statements
+To see if our smoothie suspicion has merit, let's look at purchases by category.
+We can group the order items by what type of food they are, and go from there.
+Since our order_items table does not include categories already, we'll need to make some using case statement!
+
+
+select *,
+  case name
+    when 'kale-smoothie'    then 'smoothie'
+    when 'banana-smoothie'  then 'smoothie'
+    when 'orange-juice'     then 'drink'
+    when 'soda'             then 'drink'
+    when 'blt'              then 'sandwich'
+    when 'grilled-cheese'   then 'sandwich'
+    when 'tikka-masala'     then 'dinner'
+    when 'chicken-parm'     then 'dinner'
+     else 'other'
+  end as category, round(1.0 * sum(amount_paid) /
+    (select sum(amount_paid) from order_items) * 100, 2) as pct
+from order_items
+group by 1
+order by 2 desc;
+
+It's true that the whole smoothie category is performing poorly compared to the others.
+Let's go one level deeper and figure out why.
+
+#7. Reorder rate
+While we do know that kale smoothies (and drinks overall) are not driving a lot of revenue, we don't know why.
+To find out, we'll create a metric called reorder rate and see how that compares to the other products.
+We define reorder rate as the ratio of the total number of orders to the number of people making those orders.
+A lower ratio means most of the orders are reorders. A higher ratio means more of the orders are first purchases.
+
+Count total number of orders for each item
+
+select name, count(distinct order_id)
+from order_items
+group by 1
+order by 1;
+
+Reorder rate
+
+select name, round(1.0 * count(distinct order_id) /count (distinct delivered_to),2)
+from order_items
+  join orders on
+    orders.id = order_items.order_id
+group by 1
+order by 2 desc;
+
+It turns out that while smoothies aren't making a lot of money, they have a very high reorder rate.
+Instead of recommending smoothies be taken off the menu, we should talk to the smoothie customers and see what they like so much
+about these smoothies.
