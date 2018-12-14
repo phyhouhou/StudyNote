@@ -122,3 +122,6 @@ order by 2 desc;
 It turns out that while smoothies aren't making a lot of money, they have a very high reorder rate.
 Instead of recommending smoothies be taken off the menu, we should talk to the smoothie customers and see what they like so much
 about these smoothies.
+
+# Reference
+Codeacademy: https://www.codecademy.com/learn/sql-analyzing-business-metrics
